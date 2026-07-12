@@ -1,0 +1,7 @@
+/bin/
+/dist/
+*.db
+*.sqlite
+*.log
+.env
+.DS_Store

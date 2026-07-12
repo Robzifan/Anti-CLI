@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "direction": "response",
+  "transport": "browser-fetch-observation",
+  "metadata": {
+    "purpose": "model-discovery",
+    "observed_path": "/api/v3/getAvailableModels",
+    "observed_method": "POST",
+    "observed_at": "2026-07-11"
+  },
+  "payload": {
+    "restrictedAccessModelsInPickerConfig": [
+      {"codename": "<restricted-codename>", "modelMessage": "<display-name>", "modelFamily": "anthropic"}
+    ],
+    "models": [
+      {
+        "model": "<openai-upstream-id>",
+        "modelMessage": "<openai-display-name>",
+        "modelFamily": "openai",
+        "displayGroup": "intelligent",
+        "modelConfiguration": {"supportedReasoningEfforts": ["medium", "high"], "defaultReasoningEffort": "medium"},
+        "isDisabled": false,
+        "isApproachingRateLimit": false,
+        "modelCardAttributes": {"speed": 3, "intelligence": 5, "cost": 5},
+        "workflow": {"finalModelName": "<openai-upstream-id>", "beta": true},
+        "customAgent": {"finalModelName": "<openai-upstream-id>", "beta": true},
+        "agentService": {"finalModelName": "<openai-upstream-id>", "beta": true}
+      },
+      {
+        "model": "<anthropic-upstream-id>",
+        "modelMessage": "<anthropic-display-name>",
+        "modelFamily": "anthropic",
+        "displayGroup": "fast",
+        "modelConfiguration": {"supportedReasoningEfforts": ["low", "medium", "high", "max"], "defaultReasoningEffort": "low"},
+        "isDisabled": false,
+        "workflow": {"finalModelName": "<anthropic-upstream-id>", "beta": true},
+        "customAgent": {"finalModelName": "<anthropic-upstream-id>", "beta": true}
+      },
+      {
+        "model": "<unknown-family-upstream-id>",
+        "modelMessage": "<unknown-family-display-name>",
+        "modelFamily": "mystery",
+        "displayGroup": "intelligent",
+        "isDisabled": false,
+        "workflow": {"finalModelName": "<unknown-family-upstream-id>", "beta": true}
+      }
+    ]
+  }
+}

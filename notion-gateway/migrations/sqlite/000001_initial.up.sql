@@ -1,0 +1,11 @@
+PRAGMA foreign_keys = ON;
+PRAGMA journal_mode = WAL;
+CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL);
+CREATE TABLE accounts(id TEXT PRIMARY KEY, workspace_id TEXT NOT NULL, credential_ref TEXT NOT NULL, health_score REAL NOT NULL DEFAULT 1, cooldown_until TEXT, consecutive_failures INTEGER NOT NULL DEFAULT 0, active_requests INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL);
+CREATE TABLE discovered_models(public_id TEXT NOT NULL, upstream_id TEXT NOT NULL, account_id TEXT NOT NULL REFERENCES accounts(id), workspace_id TEXT NOT NULL, display_name TEXT NOT NULL, provider TEXT, status TEXT NOT NULL, capabilities_json TEXT NOT NULL, discovery_source TEXT NOT NULL, last_verified_at TEXT, diagnostic TEXT, PRIMARY KEY(public_id,account_id,workspace_id));
+CREATE TABLE conversations(id TEXT PRIMARY KEY, source_type TEXT NOT NULL, original_session_id TEXT, project_id TEXT, created_at TEXT NOT NULL);
+CREATE TABLE messages(id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL REFERENCES conversations(id), role TEXT NOT NULL, content_redacted TEXT, stable_content_hash TEXT NOT NULL, created_at TEXT NOT NULL, UNIQUE(conversation_id,stable_content_hash));
+CREATE TABLE memories(id TEXT PRIMARY KEY, scope TEXT NOT NULL, scope_id TEXT, content_redacted TEXT NOT NULL, source_id TEXT NOT NULL, stable_content_hash TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL);
+CREATE TABLE import_sources(id TEXT PRIMARY KEY, source_type TEXT NOT NULL, source_path_hash TEXT NOT NULL, schema_version TEXT, created_at TEXT NOT NULL);
+CREATE TABLE import_runs(id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES import_sources(id), started_at TEXT NOT NULL, completed_at TEXT, status TEXT NOT NULL, diagnostic TEXT);
+CREATE VIRTUAL TABLE memory_fts USING fts5(memory_id UNINDEXED, content);

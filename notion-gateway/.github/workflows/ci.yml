@@ -1,0 +1,47 @@
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.5'
+          cache: true
+      - run: gofmt -w . && git diff --exit-code
+      - run: go vet ./...
+      - run: go test -race ./...
+      - run: make test-fuzz
+      - run: go build ./cmd/gateway ./cmd/notion-codex
+  cross-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.5'
+      - run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build ./cmd/gateway ./cmd/notion-codex
+      - run: GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build ./cmd/gateway ./cmd/notion-codex
+      - run: GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build ./cmd/gateway ./cmd/notion-codex
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.5'
+      - uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.4.0
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2

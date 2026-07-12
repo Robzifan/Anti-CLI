@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS memory_fts; DROP TABLE IF EXISTS import_runs; DROP TABLE IF EXISTS import_sources; DROP TABLE IF EXISTS memories; DROP TABLE IF EXISTS messages; DROP TABLE IF EXISTS conversations; DROP TABLE IF EXISTS discovered_models; DROP TABLE IF EXISTS accounts; DROP TABLE IF EXISTS schema_migrations;

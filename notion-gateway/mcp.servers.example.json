@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "project-filesystem": {
+      "transport": "stdio",
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ],
+      "working_directory": "C:\\Users\\anti\\Desktop\\notioncodex-gateway",
+      "allowed_tools": []
+    }
+  }
+}
